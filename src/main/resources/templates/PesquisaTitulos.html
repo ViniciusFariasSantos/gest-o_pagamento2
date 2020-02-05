@@ -1,0 +1,117 @@
+<!doctype html>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+
+
+
+<head>
+<title>Pesquisa Titulo</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+	<!-- tabela de pesquisa cliente.  -->
+
+	<div class="card">
+		<div class="card-header ">
+			Pesquisa Cliente <a class="btn btn-link " href="/titulos/novo">Cadastro</a>
+		</div>
+
+		<div class="card-body">
+			<table class="table table-bordered table-striped">
+				<tr>
+					<th class="text-center  ">#</th>
+					<th>Descrição do produto</th>
+					<th class="text-center  ">Data de Vencimento</th>
+					<th class="text-right ">Valor</th>
+					<th class="text-right ">Status</th>
+					<th></th>
+
+				</tr>
+
+				<tbody>
+					<tr th:each="titulo : ${titulos}">
+						<td th:text="${titulo.codigo}"></td>
+						<td th:text="${titulo.descricao}"></td>
+						<td th:text="${{titulo.dataVencimento}}"></td>
+						<td th:text="|R$ ${{titulo.valor}}|"></td>
+						<td><span class="badge " th:text="${titulo.status.descricao}"
+							th:classappend="${#strings.toString (titulo.status) == 'PEDENTE' ? 'badge-danger' : 'badge-success'}"></span>
+						</td>
+						<td>
+							<!-- o th:href @ vai pesquisar o link para poder fazer a alteração  -->
+							<a class="btn btn-link btn-xs"
+							th:href="@{/titulos/{codigo}(codigo=${titulo.codigo})}"> <img
+								src="/icone/open-iconic/png/pencil-2x.png"></a>
+
+							<a  class="btn btn-link btn-xs" data-toggle="modal"
+								data-target="#ConfirmacaoExclusaoModal" th:attr="data-codigo=${titulo.codigo}">
+								<img src="/icone/open-iconic/png/x-2x.png">
+							</a> 
+							<!-- Modal --> <!--  
+  								<img src="/icone/open-iconic/png/x-2x.png">
+  								<img src="/icone/open-iconic/png/check-3x.png">
+  							-->
+
+							<div class="modal fade" id="ConfirmacaoExclusaoModal"
+								tabindex="-1" data-keyboard="false" data-backdrop="static">
+
+								<div class="modal-dialog modal-dialog-centered" role="document">
+
+									<form action="/titulos" method="POST">
+
+										<input type="hidden" name="_method"  value="DELETE"/>
+
+										<div class="modal-content">
+											<div class="modal-header">
+
+												<h5 class="modal-title" id="ConfirmacaoExclusaoModal">Você
+													tem certaza</h5>
+
+											</div>
+											<div class="modal-body">
+												<p>Você tem certaza que quer excluir estes Titulo?</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+												<button type="submit" class="btn btn-primary" >Excluir</button>
+											</div>
+											
+										</div>
+									</form>
+								</div>
+								
+							</div>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan=6 th:if="${#lists.isEmpty(titulos) }">nenhum
+							titulo foi encontrado!</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+
+		</div>
+		
+	</div>
+
+
+</section>
+</html>
+
+
+
+
+
+
+
+

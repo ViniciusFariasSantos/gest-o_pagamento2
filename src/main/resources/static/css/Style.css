@@ -1,0 +1,23 @@
+.navbar-brand{
+	padding-top: 10px;
+}
+.alert{
+	
+	 margin-top: 2%;
+  	 margin-left: 5%;
+  	 margin-right: 5%;
+	
+}
+ .card{
+  	 margin-top: 2%;
+  	 margin-left: 5%;
+  	 margin-right: 5%;
+  	 
+  	 }
+  	
+ body{
+	 background-image: url('/img/wallpaper-azul-papel-de-parede-azul-fundo-13.jpg');
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+     
+     }
