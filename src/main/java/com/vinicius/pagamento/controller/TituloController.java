@@ -1,13 +1,16 @@
 package com.vinicius.pagamento.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -69,18 +72,37 @@ public class TituloController {
 		return mv;
 	}
 
-	@RequestMapping(value = "{codigo}", method = RequestMethod.POST)
-	public String excluir(@PathVariable Long codigo) {
+	@RequestMapping("/excluir/{codigo}")
+	public String excluir(@PathVariable ("codigo")Titulo titulo) {
+		
+		
 		// Estou indo para meu Model Titulo e excluido os dados
-		titulos.deleteById(codigo);
+		
+		
+		this.titulos.delete(titulo);
 		return "redirect:/titulos";
 	}
+	
+	
+//	@RequestMapping(value ="/excluir/{codigo}", method = RequestMethod.DELETE)
+//	public String excluir(@PathVariable ("codigo")Titulo titulo) {
+//		
+//		
+//		// Estou indo para meu Model Titulo e excluido os dados
+//		
+//		
+//		this.titulos.delete(titulo);
+//		return "redirect:/titulos";
+//	}
+	
+	
+	
 
 	@RequestMapping
-	public ModelAndView Pesquisa() {
+	public ModelAndView Pesquisa(@RequestParam(defaultValue="%") String descricao) {
 		// Aqui estou pesquisando e retornando todos os repositorio do meu banco de
 		// dados.
-		List<Titulo> todosTitulos = titulos.findAll();
+		List<Titulo> todosTitulos = titulos.findByDescricaoContaining(descricao);
 
 		ModelAndView mv = new ModelAndView("PesquisaTitulos");
 		mv.addObject("titulos", todosTitulos);
