@@ -1,7 +1,6 @@
 package com.vinicius.pagamento.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -99,12 +98,13 @@ public class TituloController {
 	
 
 	@RequestMapping
-	public ModelAndView Pesquisa(@RequestParam(defaultValue="%") String descricao) {
+	public ModelAndView Pesquisa(@RequestParam(defaultValue="") String descricao) {
 		// Aqui estou pesquisando e retornando todos os repositorio do meu banco de
 		// dados.
-		List<Titulo> todosTitulos = titulos.findByDescricaoContaining(descricao);
+		Iterable<Titulo> todosTitulos = titulos.findByDescricaoContaining(descricao);
 
 		ModelAndView mv = new ModelAndView("PesquisaTitulos");
+		
 		mv.addObject("titulos", todosTitulos);
 		return mv;
 
